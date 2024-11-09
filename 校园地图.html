@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>   
+        html,
+        body,    
+    #container {
+    width: 100%;
+    height: 100%;
+    }
+    .input-card{
+        position: fixed;
+        background-color: #aaa9b0;
+        overflow-y: auto;
+        width: 150px;
+        height: 150px;
+        top: 10px;
+        right: 10px;
+    }
+    .input-card .btn{
+    margin-right: 1.2rem;
+    width: 9rem;
+    }
+    .input-card .btn:last-child{
+    margin-right: 0;
+    }
+  </style>
+  <script type="text/javascript">
+    window._AMapSecurityConfig = {
+      securityJsCode: "2f4d61521e602d04e6009afe0f627a3c",};  </script>
+    <script src="https://webapi.amap.com/loader.js"></script>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=1242794de98d62d7e84e9675e5eb9016&plugin=AMap.Driving,AMap.MoveAnimation"></script>
+</head>
+<body>
+    <div id="container"></div>
+    <div class="input-card">
+    <h4>轨迹动画</h4>
+    <div class="input-item">
+        <button class="btn"  onclick="startAnimation()">开始动画</button>
+    </div>
+    <script>
+        var map = new AMap.Map("container", {
+        center:[102.75422456, 25.05747063],
+        viewMode:'3D',
+        zoom:15,
+      });//初始地图
+
+        marker = new AMap.Marker({
+          map: map,
+          position: [102.75422456, 25.05747063],
+          icon: "https://a.amap.com/jsapi_demos/static/demo-center-v2/car.png",
+          offset: new AMap.Pixel(-13, -26),
+      });//图标
+      
+      var lineArr =[];//容器
+      AMap.plugin(["AMap.Driving"], function () {
+      var driving = new AMap.Driving({
+        map:map,
+        policy:0, 
+      });
+      var startLngLat = [102.75257698, 25.05777934]; //起始点
+      var endLngLat = [102.76387595, 25.06272143]; //终点
+      var opts = {waypoints: [[102.75748183, 25.05665364],[102.75786831, 25.06132390],[102.75775028, 25.06209663],[102.76167227, 25.05857207]], };//途径点
+      
+    //点标记、图标记  
+    const position = new AMap.LngLat(102.75758183, 25.05705364); //Marker 经纬度
+    const icon= new AMap.Icon({image:'第二图书馆.jpg',imageSize:[50,50]})
+    const marker = new AMap.Marker({
+    position: position,
+    icon:icon
+    });
+    map.add(marker)
+    var text =new AMap.Text({
+    position:new AMap.LngLat(102.75758183, 25.05695364),
+    anchor:'top-right',
+    text: '第二图书馆',
+    style:{'background-color':'red'},
+    });
+    map.add(text);
+
+    const position1 = new AMap.LngLat(102.75796831, 25.06162390); //Marker 经纬度
+    const icon1= new AMap.Icon({image:'图书馆北馆.jpg',imageSize:[60,60]});
+    const marker1= new AMap.Marker({
+    position: position1,
+    icon:icon1
+    });
+    map.add(marker1)
+    var text =new AMap.Text({
+    position:new AMap.LngLat(102.75796831, 25.06152390),
+    anchor:'top-right',
+    text: '图书馆北馆',
+    style:{'background-color':'red'},
+    });
+    map.add(text);
+
+    const position2 = new AMap.LngLat(102.75765028, 25.06209663); //Marker 经纬度
+    const icon2= new AMap.Icon({image:'标本馆.jpg',imageSize:[50,50]});
+    const marker2= new AMap.Marker({
+    position: position2,
+    icon:icon2
+    });
+    map.add(marker2)
+    var text =new AMap.Text({
+    position:new AMap.LngLat(102.75765028, 25.06199663),
+    anchor:'top-right',
+    text: '标本馆',
+    style:{'background-color':'red'},
+    });
+    map.add(text);
+
+    const position3 = new AMap.LngLat(102.76167227, 25.05907207); //Marker 经纬度
+    const icon3= new AMap.Icon({image:'第四食堂.jpg',imageSize:[70,70]});
+    const marker3= new AMap.Marker({
+    position: position3,
+    icon:icon3
+    });
+    map.add(marker3)
+    var text =new AMap.Text({
+    position:new AMap.LngLat(102.76167227, 25.05887207),
+    anchor:'top-right',
+    text: '第四食堂',
+    style:{'background-color':'red'},
+    });
+    map.add(text);
+
+    const position4 = new AMap.LngLat(102.75257698, 25.05797934); //Marker 经纬度
+    const icon4= new AMap.Icon({image:'1号门.jpg',imageSize:[60,60]});
+    const marker4= new AMap.Marker({
+    position: position4,
+    icon:icon4
+    });
+    map.add(marker4)
+    var text =new AMap.Text({
+    position:new AMap.LngLat(102.75267698, 25.05787934),
+    anchor:'top-right',
+    text: '1号门',
+    style:{'background-color':'red'},
+    });
+    map.add(text);
+
+      driving.search(startLngLat, endLngLat, opts, function (status, result) {
+      console.log(status);
+      console.log(startLngLat);
+      result.routes[0].steps.forEach(function(item){
+      lineArr.push(...item.path)
+      });
+      });  
+      });
+    function startAnimation(){
+        marker.moveAlong(lineArr,{duration:200,})};//动画
+        
+        
+  </script>
+</body>
+</html>
